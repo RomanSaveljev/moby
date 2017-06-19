@@ -6,7 +6,9 @@ package journald
 
 import (
 	"fmt"
+	"strconv"
 	"sync"
+	"time"
 	"unicode"
 
 	"github.com/Sirupsen/logrus"
@@ -109,6 +111,7 @@ func (s *journald) Log(msg *logger.Message) error {
 	if msg.Partial {
 		vars["CONTAINER_PARTIAL_MESSAGE"] = "true"
 	}
+	vars["CONTAINER_TIMESTAMP"] = strconv.FormatInt(time.Now().UnixNano(), 10)
 
 	line := string(msg.Line)
 	logger.PutMessage(msg)
